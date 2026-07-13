@@ -18,81 +18,82 @@ const MobileDrawer: React.FC<MobileDrawerProps> = ({ isOpen, onClose }) => {
       {isOpen && (
         <>
           <motion.div className='drawer-overlay' initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
-          <motion.div 
-            className='drawer-v3'
+          <motion.div
+            className='drawer'
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
           >
-            <div className='drawer-v3__header'>
+            <div className='drawer__header'>
               <div className="nav-glass__logo">
                 <div className="nav-glass__logo-icon"><Sun size={18} /></div>
                 <span className="nav-glass__logo-text">Sunshine<span className="gold">Tickets</span></span>
               </div>
-              <button onClick={onClose} className='drawer-v3__close'><X size={24} /></button>
+              <button onClick={onClose} className='drawer__close'><X size={22} /></button>
             </div>
 
-            <div className='drawer-v3__body'>
-              <div className='drawer-v3__group'>
-                <Link to='/' className='drawer-item--boxed active' onClick={onClose}><Home size={20} /> <span>Home</span></Link>
-                <Link to='/organizer/auth' className='drawer-item' onClick={onClose}><Users size={20} /> <span>For Organizers</span></Link>
-                <Link to='/help' className='drawer-item' onClick={onClose}><HelpCircle size={20} /> <span>Help Center</span></Link>
+            <div className='drawer__scroll'>
+              <div className='drawer__section'>
+                <Link to='/' className='drawer__link drawer__link--active' onClick={onClose}><Home size={20} /> <span>Home</span></Link>
+                <Link to='/organizer/auth' className='drawer__link' onClick={onClose}><Users size={20} /> <span>For Organizers</span></Link>
+                <Link to='/help' className='drawer__link' onClick={onClose}><HelpCircle size={20} /> <span>Help Center</span></Link>
               </div>
 
-              <div className='drawer-v3__separator' />
+              <div className='drawer__divider' />
 
-              <div className='drawer-v3__group'>
-                <Link to='/tickets' className='drawer-item' onClick={onClose}><Ticket size={20} /> <span>My Tickets</span></Link>
-                <Link to='/favorites' className='drawer-item' onClick={onClose}><Heart size={20} /> <span>Favorites</span></Link>
-                <Link to='/profile' className='drawer-item' onClick={onClose}><User size={20} /> <span>Profile</span></Link>
+              <div className='drawer__section'>
+                <Link to='/tickets' className='drawer__link' onClick={onClose}><Ticket size={20} /> <span>My Tickets</span></Link>
+                <Link to='/favorites' className='drawer__link' onClick={onClose}><Heart size={20} /> <span>Favorites</span></Link>
+                <Link to='/profile' className='drawer__link' onClick={onClose}><User size={20} /> <span>Profile</span></Link>
               </div>
 
-              <div className='drawer-promo-card'>
-                <div className='promo-card-left'>
+              <div className='drawer__promo'>
+                <div className='drawer__promo-text'>
                   <h4>Host Your Event</h4>
                   <p>Reach thousands of fans.</p>
                   <Link to='/organizer/auth' onClick={onClose}>Learn More &rarr;</Link>
                 </div>
-                <div className='promo-card-right'>
-                  <Star size={32} className='star-neon' />
+                <div className='drawer__promo-icon'>
+                  <Star size={32} />
                 </div>
               </div>
-            </div>
 
-            <div className='drawer-v3__footer'>
-              {user ? (
-                <div className='drawer-profile-info' style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%' }}>
-                  <div className='drawer-profile-user'>
-                    <div className='drawer-avatar'>
-                      {user.name.charAt(0).toUpperCase()}
+              {/* Footer moved INSIDE scroll area so it's always reachable */}
+              <div className='drawer__footer'>
+                {user ? (
+                  <div className='drawer__profile'>
+                    <div className='drawer__profile-user'>
+                      <div className='drawer__avatar'>
+                        {user.name.charAt(0).toUpperCase()}
+                      </div>
+                      <div className='drawer__profile-info'>
+                        <span className='drawer__profile-name'>{user.name}</span>
+                        <span className='drawer__profile-email'>{user.email}</span>
+                      </div>
                     </div>
-                    <div className='drawer-details'>
-                      <span className='name'>{user.name}</span>
-                      <span className='email'>{user.email}</span>
-                    </div>
+
+                    {user.role === 'admin' && (
+                      <Link to='/admin' className='drawer__link drawer__link--gold' onClick={onClose}>
+                        <Settings size={20} /> Admin Panel
+                      </Link>
+                    )}
+                    {user.role === 'organizer' && (
+                      <Link to='/manage' className='drawer__link drawer__link--gold' onClick={onClose}>
+                        <LayoutDashboard size={20} /> Organizer Dashboard
+                      </Link>
+                    )}
+
+                    <button className='drawer__signout' onClick={() => { signOut(); onClose(); }}>
+                      <LogOut size={18} /> Sign Out
+                    </button>
                   </div>
-
-                  {user.role === 'admin' && (
-                    <Link to='/admin' className='drawer-item' style={{ width: '100%', justifyContent: 'center', fontWeight: 'bold', color: 'var(--primary-gold)' }} onClick={onClose}>
-                      <Settings size={20} /> Admin Panel
-                    </Link>
-                  )}
-                  {user.role === 'organizer' && (
-                    <Link to='/manage' className='drawer-item' style={{ width: '100%', justifyContent: 'center', fontWeight: 'bold', color: 'var(--primary-gold)' }} onClick={onClose}>
-                      <LayoutDashboard size={20} /> Organizer Dashboard
-                    </Link>
-                  )}
-
-                  <button className='btn-footer-signout' style={{ width: '100%' }} onClick={() => { signOut(); onClose(); }}>
-                    <LogOut size={20} /> Sign Out
+                ) : (
+                  <button className='drawer__signin' onClick={() => { openAuthModal('signin'); onClose(); }}>
+                    Sign In
                   </button>
-                </div>
-              ) : (
-                <button className='btn-footer-signin' onClick={() => { openAuthModal('signin'); onClose(); }}>
-                  Sign In
-                </button>
-              )}
+                )}
+              </div>
             </div>
           </motion.div>
         </>
