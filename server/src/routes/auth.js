@@ -7,7 +7,7 @@ const { auth } = require('../middleware/auth');
 const sign = (user) => jwt.sign(
   { id: user.id, username: user.username, email: user.email, role: user.role, name: user.full_name },
   process.env.JWT_SECRET,
-  { expiresIn: process.env.JWT_EXPIRES_IN }
+  { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
 );
 
 // POST /api/auth/signup
