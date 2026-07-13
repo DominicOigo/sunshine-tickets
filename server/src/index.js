@@ -17,13 +17,12 @@ app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// Maintenance mode middleware (skips /api/auth/*, /api/settings/*, /api/health)
+// Maintenance mode middleware
 app.use(async (req, res, next) => {
   if (req.path.startsWith('/api/auth/') || req.path.startsWith('/api/settings/') || req.path.startsWith('/api/payment-methods/') || req.path === '/api/health' || req.path === '/') return next();
   try {
     const { rows } = await pool.query("select value from settings where key = 'maintenance_mode'");
     if (rows[0]?.value === 'true') {
-      // Allow admin users through
       const authHeader = req.headers.authorization;
       if (authHeader?.startsWith('Bearer ')) {
         try {
@@ -58,10 +57,6 @@ app.use((err, req, res, next) => {
   console.error(err);
   res.status(err.status || 500).json({ error: err.message || 'Internal server error' });
 });
-
-// Socket.io
-const { setupSocket } = require('./socket');
-setupSocket(server);
 
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => console.log(`Sunshine Tickets API running on http://localhost:${PORT}`));
