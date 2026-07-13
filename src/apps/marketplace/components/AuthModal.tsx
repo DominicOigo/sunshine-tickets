@@ -206,7 +206,7 @@ export const AuthModal: React.FC = () => {
                     <h3 className="success-title">Check Your Email</h3>
                     <p className="success-subtitle">A reset link has been sent to <strong>{email}</strong>.</p>
                     <div className="success-glow-line" />
-                    <button className="auth-toggle-link" style={{ marginTop: '1.5rem' }} onClick={() => { setForgotMode(false); setResetSent(false); }}>
+                    <button className="auth-toggle-link auth-toggle-link--mt" onClick={() => { setForgotMode(false); setResetSent(false); }}>
                       Back to Sign In
                     </button>
                   </motion.div>
@@ -281,8 +281,8 @@ export const AuthModal: React.FC = () => {
                     </button>
                   </div>
                 {!registrationOpen && authMode === 'signup' && (
-                  <div className="auth-error-banner" style={{ borderLeftColor: '#FF9500', background: 'rgba(255,149,0,0.08)' }}>
-                    <AlertCircle size={16} style={{ color: '#FF9500' }} />
+                  <div className="auth-error-banner auth-error-banner--warning">
+                    <AlertCircle size={16} />
                     <span>Registration is currently closed. Please contact support for assistance.</span>
                   </div>
                 )}
@@ -307,26 +307,24 @@ export const AuthModal: React.FC = () => {
                   {authMode === 'signup' && registrationOpen && (
                     <div className="auth-input-group">
                       <label>Register As</label>
-                      <div className="auth-role-group" style={{ display: 'flex', gap: '0.75rem', marginTop: '0.25rem', marginBottom: '0.75rem' }}>
-                        <label className={`auth-role-option ${role === 'customer' ? 'active' : ''}`} style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 0.75rem', background: 'rgba(255,255,255,0.03)', border: role === 'customer' ? '1px solid var(--primary-gold)' : '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', cursor: 'pointer', color: 'white', fontSize: '0.875rem', transition: 'all 0.2s' }}>
+                      <div className="auth-role-group">
+                        <label className={`auth-role-option ${role === 'customer' ? 'active' : ''}`}>
                           <input 
                             type="radio" 
                             name="auth-role" 
                             value="customer" 
                             checked={role === 'customer'} 
                             onChange={() => setRole('customer')}
-                            style={{ accentColor: 'var(--primary-gold)' }}
                           />
                           <span>Ticket Buyer</span>
                         </label>
-                        <label className={`auth-role-option ${role === 'organizer' ? 'active' : ''}`} style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 0.75rem', background: 'rgba(255,255,255,0.03)', border: role === 'organizer' ? '1px solid var(--primary-gold)' : '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', cursor: 'pointer', color: 'white', fontSize: '0.875rem', transition: 'all 0.2s' }}>
+                        <label className={`auth-role-option ${role === 'organizer' ? 'active' : ''}`}>
                           <input 
                             type="radio" 
                             name="auth-role" 
                             value="organizer" 
                             checked={role === 'organizer'} 
                             onChange={() => setRole('organizer')}
-                            style={{ accentColor: 'var(--primary-gold)' }}
                           />
                           <span>Event Organizer</span>
                         </label>
@@ -354,7 +352,7 @@ export const AuthModal: React.FC = () => {
                   <div className="auth-input-group">
                     <label htmlFor="auth-username">Username</label>
                     <div className="auth-input-wrapper">
-                      <User size={18} className="input-icon" style={{ color: 'var(--text-muted)' }} />
+                      <User size={18} className="input-icon" />
                       <input 
                         id="auth-username"
                         type="text" 
@@ -389,7 +387,7 @@ export const AuthModal: React.FC = () => {
                     <div className="auth-input-group">
                       <label htmlFor="auth-phone">Phone Number (optional)</label>
                       <div className="auth-input-wrapper">
-                        <Phone size={18} className="input-icon" style={{ color: 'var(--text-muted)' }} />
+                        <Phone size={18} className="input-icon" />
                         <input 
                           id="auth-phone"
                           type="tel" 
