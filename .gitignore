@@ -7,3 +7,5 @@ supabase/.temp
 
 # Credentials (contains secrets)
 CREDENTIALS.md
+.vercel
+.env*

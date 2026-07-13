@@ -3,7 +3,7 @@ const cors    = require('cors');
 const jwt     = require('jsonwebtoken');
 
 const app = express();
-const pool = require('./db/pool');
+const pool = require('../server/src/db/pool');
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',')
@@ -12,7 +12,6 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json());
 
-// Maintenance mode middleware
 app.use(async (req, res, next) => {
   if (req.path.startsWith('/api/auth/') || req.path.startsWith('/api/settings/') || req.path.startsWith('/api/payment-methods/') || req.path === '/api/health' || req.path === '/') return next();
   try {
@@ -32,19 +31,18 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Routes
-app.use('/api/auth',            require('./routes/auth'));
-app.use('/api/events',          require('./routes/events'));
-app.use('/api/orders',          require('./routes/orders'));
-app.use('/api/upload',          require('./routes/upload'));
-app.use('/api/admin',           require('./routes/admin'));
-app.use('/api/discounts',       require('./routes/discounts'));
-app.use('/api/team',            require('./routes/team'));
-app.use('/api/announcements',   require('./routes/announcements'));
-app.use('/api/hero-slides',     require('./routes/hero-slides'));
-app.use('/api/chat',            require('./routes/chat'));
-app.use('/api/settings',        require('./routes/settings'));
-app.use('/api/payment-methods', require('./routes/payment-methods'));
+app.use('/api/auth',            require('../server/src/routes/auth'));
+app.use('/api/events',          require('../server/src/routes/events'));
+app.use('/api/orders',          require('../server/src/routes/orders'));
+app.use('/api/upload',          require('../server/src/routes/upload'));
+app.use('/api/admin',           require('../server/src/routes/admin'));
+app.use('/api/discounts',       require('../server/src/routes/discounts'));
+app.use('/api/team',            require('../server/src/routes/team'));
+app.use('/api/announcements',   require('../server/src/routes/announcements'));
+app.use('/api/hero-slides',     require('../server/src/routes/hero-slides'));
+app.use('/api/chat',            require('../server/src/routes/chat'));
+app.use('/api/settings',        require('../server/src/routes/settings'));
+app.use('/api/payment-methods', require('../server/src/routes/payment-methods'));
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok', time: new Date() }));
 
