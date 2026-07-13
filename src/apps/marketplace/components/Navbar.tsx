@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Search, User as UserIcon, LogOut, LayoutDashboard, Ticket,
-  Settings, Briefcase, Menu, ChevronDown, ShoppingBag,
+  Briefcase, Menu, ChevronDown, ShoppingBag,
 } from 'lucide-react';
 import NavLogo from './NavLogo';
 import MobileDrawer from './MobileDrawer';
@@ -56,11 +56,6 @@ const ProfileDropdown: React.FC = () => {
         {user!.role === 'organizer' && (
           <Link to="/manage" className="nav-glass__dropdown-item">
             <LayoutDashboard size={16} /> Organizer Dashboard
-          </Link>
-        )}
-        {user!.role === 'admin' && (
-          <Link to="/admin" className="nav-glass__dropdown-item">
-            <Settings size={16} /> Admin Panel
           </Link>
         )}
         <button className="nav-glass__dropdown-item nav-glass__dropdown-item--danger" onClick={signOut}>

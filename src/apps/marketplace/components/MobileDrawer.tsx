@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { X, Home, Users, HelpCircle, Ticket, Heart, User, Star, LogOut, Settings, LayoutDashboard, Sun } from 'lucide-react';
+import { X, Home, Users, HelpCircle, Ticket, Heart, User, Star, LogOut, LayoutDashboard, Sun } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
 import './MobileDrawer.css';
 
@@ -73,11 +73,6 @@ const MobileDrawer: React.FC<MobileDrawerProps> = ({ isOpen, onClose }) => {
                       </div>
                     </div>
 
-                    {user.role === 'admin' && (
-                      <Link to='/admin' className='drawer__link drawer__link--gold' onClick={onClose}>
-                        <Settings size={20} /> Admin Panel
-                      </Link>
-                    )}
                     {user.role === 'organizer' && (
                       <Link to='/manage' className='drawer__link drawer__link--gold' onClick={onClose}>
                         <LayoutDashboard size={20} /> Organizer Dashboard
