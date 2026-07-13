@@ -11,7 +11,8 @@ import { useToast } from '../../context/ToastContext';
 import { adminService, HeroSlide } from '../../lib/adminService';
 import {
   getAdminConversations, getAdminConversation, adminSendMessage, closeConversation,
-  type Conversation, type Message, getSocket, disconnectSocket
+  joinConversation, unsubscribeFromMessages,
+  type Conversation, type Message
 } from '../../lib/chatService';
 
 // ── Shared ─────────────────────────────────────────────────────────────────
@@ -1056,21 +1057,17 @@ export const ChatMessagesPage: React.FC = () => {
     try {
       const full = await getAdminConversation(c.id);
       setMessages(full.messages ?? []);
-      const sock = getSocket();
-      sock.emit('join-conversation', c.id);
+      joinConversation(c.id, (msg) => {
+        setMessages(prev => {
+          if (prev.some(m => m.id === msg.id)) return prev;
+          return [...prev, msg];
+        });
+      });
     } catch (e: any) { toast(e.message, 'error'); }
   };
 
   useEffect(() => {
-    const sock = getSocket();
-    const handler = (msg: Message) => {
-      setMessages(prev => {
-        if (prev.some(m => m.id === msg.id)) return prev;
-        return [...prev, msg];
-      });
-    };
-    sock.on('new-message', handler);
-    return () => { sock.off('new-message', handler); };
+    return () => { unsubscribeFromMessages(); };
   }, []);
 
   const handleSend = async () => {
@@ -1078,11 +1075,8 @@ export const ChatMessagesPage: React.FC = () => {
     if (!text || !selected || sending) return;
     setSending(true);
     try {
-      const msg = await adminSendMessage(selected.id, text);
-      setMessages(prev => [...prev, msg]);
+      await adminSendMessage(selected.id, text);
       setInput('');
-      const sock = getSocket();
-      sock.emit('send-message', { ...msg, conversation_id: selected.id });
       load();
     } catch (e: any) { toast(e.message, 'error'); }
     finally { setSending(false); }

@@ -1,5 +1,5 @@
-import { io, Socket } from 'socket.io-client';
 import { request } from './api';
+import { subscribeToMessages } from './supabase';
 
 export interface Conversation {
   id:            string;
@@ -23,17 +23,18 @@ export interface Message {
   created_at:       string;
 }
 
-let socket: Socket | null = null;
+let realtimeChannel: any = null;
 
-export function getSocket(): Socket {
-  if (!socket) {
-    socket = io('http://localhost:4000', { transports: ['websocket', 'polling'] });
-  }
-  return socket;
+export function joinConversation(conversationId: string, onMessage: (msg: Message) => void) {
+  unsubscribeFromMessages();
+  realtimeChannel = subscribeToMessages(conversationId, onMessage);
 }
 
-export function disconnectSocket() {
-  if (socket) { socket.disconnect(); socket = null; }
+export function unsubscribeFromMessages() {
+  if (realtimeChannel) {
+    realtimeChannel.unsubscribe();
+    realtimeChannel = null;
+  }
 }
 
 export async function createConversation(user_name?: string, user_email?: string): Promise<Conversation> {

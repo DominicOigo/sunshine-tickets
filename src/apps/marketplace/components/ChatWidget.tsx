@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Loader, Minus } from 'lucide-react';
-import { getSocket, createConversation, sendMessage, getConversation, type Conversation, type Message, disconnectSocket } from '../../../lib/chatService';
+import { createConversation, sendMessage, getConversation, joinConversation, unsubscribeFromMessages, type Conversation, type Message } from '../../../lib/chatService';
 import './ChatWidget.css';
 
 const ChatWidget: React.FC = () => {
@@ -31,8 +31,12 @@ const ChatWidget: React.FC = () => {
             setConv(c);
             setMessages(c.messages ?? []);
             setStarted(true);
-            const sock = getSocket();
-            sock.emit('join-conversation', c.id);
+            joinConversation(c.id, (msg) => {
+              setMessages(prev => {
+                if (prev.some(m => m.id === msg.id)) return prev;
+                return [...prev, msg];
+              });
+            });
           } else {
             sessionStorage.removeItem('chat_conv_id');
           }
@@ -42,15 +46,7 @@ const ChatWidget: React.FC = () => {
   }, [open, conv]);
 
   useEffect(() => {
-    const sock = getSocket();
-    const handler = (msg: Message) => {
-      setMessages(prev => {
-        if (prev.some(m => m.id === msg.id)) return prev;
-        return [...prev, msg];
-      });
-    };
-    sock.on('new-message', handler);
-    return () => { sock.off('new-message', handler); };
+    return () => { unsubscribeFromMessages(); };
   }, []);
 
   useEffect(() => {
@@ -67,8 +63,12 @@ const ChatWidget: React.FC = () => {
       setMessages(c.messages ?? []);
       setStarted(true);
       sessionStorage.setItem('chat_conv_id', c.id);
-      const sock = getSocket();
-      sock.emit('join-conversation', c.id);
+      joinConversation(c.id, (msg) => {
+        setMessages(prev => {
+          if (prev.some(m => m.id === msg.id)) return prev;
+          return [...prev, msg];
+        });
+      });
     } catch (e: any) {
       console.error('Failed to start chat:', e);
     }
@@ -80,11 +80,8 @@ const ChatWidget: React.FC = () => {
     setSending(true);
     const displayName = name.trim() || 'Guest';
     try {
-      const msg = await sendMessage(conv.id, displayName, text);
-      setMessages(prev => [...prev, msg]);
+      await sendMessage(conv.id, displayName, text);
       setInput('');
-      const sock = getSocket();
-      sock.emit('send-message', { ...msg, conversation_id: conv.id });
     } catch (e: any) {
       console.error('Failed to send:', e);
     } finally {
@@ -168,7 +165,7 @@ const ChatWidget: React.FC = () => {
                     <div className="chat-empty">Chat started. Say hello!</div>
                   )}
                   {messages.map((msg, idx) => {
-                    const isMine = msg.sender_type !== 'admin'; // user's own messages
+                    const isMine = msg.sender_type !== 'admin';
                     const showName = idx === 0 || messages[idx - 1].sender_type !== msg.sender_type;
                     return (
                       <div key={msg.id} style={{
