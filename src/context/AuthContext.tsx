@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { request } from '../lib/api';
+import { supabase } from '../lib/supabase';
 
 export type UserRole = 'customer' | 'organizer' | 'admin';
 
@@ -28,6 +29,7 @@ interface AuthContextType {
   closeAuthModal:  () => void;
   setAuthMode:     (mode: 'signin' | 'signup') => void;
   signIn:          (username: string, password: string, code?: string) => Promise<any>;
+  adminSignIn:     (email: string, password: string) => Promise<any>;
   signUp:          (username: string, email: string, password: string, name: string, role?: UserRole, businessName?: string, phone?: string) => Promise<any>;
   signOut:         () => Promise<void>;
   updateProfile:   (name: string, email: string, phone?: string, businessName?: string) => Promise<void>;
@@ -123,6 +125,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return data.user;
   };
 
+  const adminSignIn = async (email: string, password: string) => {
+    const { data: sbData, error: sbError } = await supabase.auth.signInWithPassword({ email, password });
+    if (sbError) throw new Error(sbError.message || 'Invalid email or password');
+    if (!sbData.session?.access_token) throw new Error('No session token received');
+
+    const data = await request('/auth/admin-signin', {
+      method: 'POST',
+      body: JSON.stringify({ accessToken: sbData.session.access_token })
+    });
+    localStorage.setItem('token', data.token);
+    setUser({
+      id:            data.user.id,
+      username:      data.user.username,
+      email:         data.user.email,
+      name:          data.user.full_name,
+      role:          data.user.role,
+      avatar_url:    data.user.avatar_url,
+      phone:         data.user.phone,
+      is_verified:   data.user.is_verified,
+      is_suspended:  data.user.is_suspended,
+      business_name: data.user.business_name || null,
+    });
+    return data.user;
+  };
+
   const signUp = async (username: string, email: string, password: string, name: string, role: UserRole = 'customer', businessName?: string, phone?: string) => {
     const data = await request('/auth/signup', {
       method: 'POST',
@@ -152,6 +179,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signOut = async () => {
     localStorage.removeItem('token');
+    await supabase.auth.signOut();
     setUser(null);
   };
 
@@ -190,7 +218,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       user, loading,
       isAuthModalOpen, authMode, defaultRole, hideRegisterTab,
       openAuthModal, closeAuthModal, setAuthMode,
-      signIn, signUp, signOut, updateProfile, updatePassword, resetPassword,
+      signIn, adminSignIn, signUp, signOut, updateProfile, updatePassword, resetPassword,
     }}>
       {children}
     </AuthContext.Provider>

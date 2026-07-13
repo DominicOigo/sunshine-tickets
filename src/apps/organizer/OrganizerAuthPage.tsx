@@ -95,18 +95,6 @@ export const OrganizerAuthPage: React.FC = () => {
     }
   };
 
-  const requestUpdatePhone = async (phone: string, name: string, email: string, businessName: string) => {
-    const token = localStorage.getItem('token');
-    await fetch('http://localhost:4000/api/auth/profile', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-      },
-      body: JSON.stringify({ full_name: name, email, phone, business_name: businessName })
-    });
-  };
-
   return (
     <div className="org-auth-page">
       {/* Background Neon Glows */}

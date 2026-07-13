@@ -1,12 +1,10 @@
 require('dotenv').config();
 const express = require('express');
-const http    = require('http');
 const cors    = require('cors');
 const path    = require('path');
 const jwt     = require('jsonwebtoken');
 
 const app = express();
-const server = http.createServer(app);
 const pool  = require('./db/pool');
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS
@@ -59,4 +57,4 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 4000;
-server.listen(PORT, () => console.log(`Sunshine Tickets API running on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Sunshine Tickets API running on http://localhost:${PORT}`));

@@ -8,6 +8,7 @@ import OrganizerDashboard from './apps/organizer/OrganizerDashboard'
 import EventDetailPage from './apps/marketplace/EventDetailPage'
 import EventsPage from './apps/marketplace/EventsPage'
 import AdminDashboard from './apps/admin/AdminDashboard'
+import AdminLoginPage from './apps/admin/AdminLoginPage'
 import CartPage from './apps/marketplace/CartPage'
 import RequireAuth from './components/RequireAuth'
 import MaintenancePage from './components/MaintenancePage'
@@ -21,7 +22,7 @@ function App() {
   const { user } = useAuth()
 
   useEffect(() => {
-    fetch('http://localhost:4000/api/settings/maintenance-mode')
+    fetch('/api/settings/maintenance-mode')
       .then(r => r.json())
       .then(d => { setMaintenance(d.maintenance); setChecked(true) })
       .catch(() => setChecked(true))
@@ -39,6 +40,7 @@ function App() {
           <Route path='/event/:id' element={<EventDetailPage />} />
           <Route path='/cart' element={<CartPage />} />
           <Route path='/organizer/auth' element={<OrganizerAuthPage />} />
+          <Route path='/admin/login' element={<AdminLoginPage />} />
           
           {/* Public Protected Routes */}
           <Route path='/profile' element={<RequireAuth><ProfilePage /></RequireAuth>} />

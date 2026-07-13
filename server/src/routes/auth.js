@@ -131,10 +131,6 @@ router.post('/signin', async (req, res) => {
     }
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return res.status(401).json({ error: 'Invalid username or password' });
-    if (user.role === 'admin') {
-      if (!code) return res.status(401).json({ error: 'Admin code required' });
-      if (code !== user.admin_code) return res.status(401).json({ error: 'Invalid admin code' });
-    }
     const { password: _, admin_code: __, ...safeUser } = user;
     res.json({ token: sign(user), user: safeUser });
   } catch (e) {
@@ -226,6 +222,55 @@ router.put('/password', auth, async (req, res) => {
   } catch (e) {
     console.error('Password update error:', e);
     res.status(500).json({ error: 'Failed to update password. Please try again.' });
+  }
+});
+
+// POST /api/auth/admin-signin — verify Supabase Auth token, return our JWT
+router.post('/admin-signin', async (req, res) => {
+  const { accessToken } = req.body;
+  if (!accessToken) return res.status(400).json({ error: 'Access token required' });
+
+  try {
+    const response = await fetch(`${process.env.VITE_SUPABASE_URL}/auth/v1/user`, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'apikey': process.env.VITE_SUPABASE_ANON_KEY,
+      },
+    });
+
+    if (!response.ok) {
+      return res.status(401).json({ error: 'Invalid or expired session' });
+    }
+
+    const supabaseUser = await response.json();
+    const email = supabaseUser.email;
+    if (!email) return res.status(401).json({ error: 'Email not found in session' });
+
+    let { rows } = await pool.query('select * from users where lower(email) = $1', [email.toLowerCase()]);
+
+    let user;
+    if (rows.length === 0) {
+      const base = email.split('@')[0].replace(/[^a-z0-9]/gi, '').toLowerCase();
+      const { rows: dup } = await pool.query('select id from users where lower(username) = $1', [base]);
+      const username = dup.length > 0 ? `${base}_${Date.now()}` : base;
+      const { rows: newUser } = await pool.query(
+        'insert into users (username, email, password, full_name, role) values ($1, $2, $3, $4, $5) returning *',
+        [username, email.toLowerCase(), 'supabase-auth', supabaseUser.user_metadata?.full_name || email, 'admin']
+      );
+      user = newUser[0];
+    } else {
+      user = rows[0];
+      if (user.role !== 'admin') {
+        await pool.query('update users set role=$1, updated_at=now() where id=$2', ['admin', user.id]);
+        user.role = 'admin';
+      }
+    }
+
+    const { password: _, admin_code: __, ...safeUser } = user;
+    res.json({ token: sign(user), user: safeUser });
+  } catch (e) {
+    console.error('Admin signin error:', e);
+    res.status(500).json({ error: 'Admin authentication failed' });
   }
 });
 

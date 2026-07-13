@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Mail, Lock, User, Key, ArrowRight, AlertCircle, ShieldCheck, Sparkles } from 'lucide-react';
+import { X, Mail, Lock, User, ArrowRight, AlertCircle, ShieldCheck, Sparkles, Phone } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { request } from '../../../lib/api';
 import './AuthModal.css';
 
 export const AuthModal: React.FC = () => {
-  const { isAuthModalOpen, authMode, closeAuthModal, setAuthMode, signIn, signUp, resetPassword, defaultRole, hideRegisterTab } = useAuth();
+  const { isAuthModalOpen, authMode, closeAuthModal, setAuthMode, signIn, signUp, resetPassword, defaultRole } = useAuth();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
-  const [code, setCode] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [forgotMode, setForgotMode] = useState(false);
@@ -72,14 +72,14 @@ export const AuthModal: React.FC = () => {
     try {
       let loggedInUser;
       if (authMode === 'signin') {
-        loggedInUser = await signIn(username, password, code || undefined);
+        loggedInUser = await signIn(username, password);
       } else {
         if (!registrationOpen) {
           setError('Registration is currently closed. Please contact support for assistance.');
           setLoading(false);
           return;
         }
-        loggedInUser = await signUp(username, email, password, name, role);
+        loggedInUser = await signUp(username, email, password, name, role, undefined, phone || undefined);
       }
       
       setSuccess(true);
@@ -91,18 +91,18 @@ export const AuthModal: React.FC = () => {
         if (authMode === 'signup' && role === 'organizer') {
           setAuthMode('signin');
           setUsername('');
-          setCode('');
           setEmail('');
           setName('');
+          setPhone('');
           setPassword('');
           setConfirmPassword('');
           setRole('customer');
           setError('Your organizer account has been registered and is pending admin approval. You can sign in once verified.');
         } else {
           setUsername('');
-          setCode('');
           setEmail('');
           setName('');
+          setPhone('');
           setPassword('');
           setConfirmPassword('');
           setRole('customer');
@@ -248,19 +248,16 @@ export const AuthModal: React.FC = () => {
                     <Sparkles size={24} className="orange-neon" />
                   </div>
                   <h2 className="auth-header__title">
-                    {hideRegisterTab ? 'Login' : authMode === 'signin' ? 'Sign In to Sunshine' : 'Create Account'}
+                    {authMode === 'signin' ? 'Sign In to Sunshine' : 'Create Account'}
                   </h2>
-                  {!hideRegisterTab && (
-                    <p className="auth-header__subtitle">
-                      {authMode === 'signin' 
-                        ? 'Access your tickets, exclusive events, and local offers' 
-                        : 'Join Kenya’s premium event ticket marketplace'}
-                    </p>
-                  )}
+                  <p className="auth-header__subtitle">
+                    {authMode === 'signin' 
+                      ? 'Access your tickets, exclusive events, and local offers' 
+                      : "Join Kenya\u2019s premium event ticket marketplace"}
+                  </p>
                 </div>
 
-                {!hideRegisterTab && (
-                  <div className="auth-tabs">
+                <div className="auth-tabs">
                     <button 
                       type="button"
                       className={`auth-tab ${authMode === 'signin' ? 'active' : ''}`}
@@ -283,7 +280,6 @@ export const AuthModal: React.FC = () => {
                       )}
                     </button>
                   </div>
-                )}
                 {!registrationOpen && authMode === 'signup' && (
                   <div className="auth-error-banner" style={{ borderLeftColor: '#FF9500', background: 'rgba(255,149,0,0.08)' }}>
                     <AlertCircle size={16} style={{ color: '#FF9500' }} />
@@ -389,20 +385,17 @@ export const AuthModal: React.FC = () => {
                     </div>
                   )}
 
-                  {hideRegisterTab && (
+                  {authMode === 'signup' && registrationOpen && (
                     <div className="auth-input-group">
-                      <label htmlFor="auth-code">Admin Code</label>
+                      <label htmlFor="auth-phone">Phone Number (optional)</label>
                       <div className="auth-input-wrapper">
-                        <Key size={18} className="input-icon" style={{ color: 'var(--text-muted)' }} />
+                        <Phone size={18} className="input-icon" style={{ color: 'var(--text-muted)' }} />
                         <input 
-                          id="auth-code"
-                          type="password" 
-                          placeholder="Enter admin code"
-                          value={code}
-                          onChange={(e) => setCode(e.target.value)}
-                          required
-                          minLength={6}
-                          maxLength={12}
+                          id="auth-phone"
+                          type="tel" 
+                          placeholder="07XXXXXXXX"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
                           disabled={loading}
                         />
                       </div>
@@ -443,7 +436,7 @@ export const AuthModal: React.FC = () => {
                     </div>
                   )}
 
-                  {authMode === 'signin' && !hideRegisterTab && (
+                  {authMode === 'signin' && (
                     <div className="auth-forgot-link">
                       <button type="button" className="text-btn" onClick={() => { setError(''); setForgotMode(true); }}>Forgot Password?</button>
                     </div>
@@ -470,8 +463,7 @@ export const AuthModal: React.FC = () => {
                   </button>
                 </form>
 
-                {!hideRegisterTab && (
-                  <div className="auth-footer-switch">
+                <div className="auth-footer-switch">
                     <span>
                       {authMode === 'signin' ? "Don't have an account?" : 'Already have an account?'}
                     </span>
@@ -479,7 +471,6 @@ export const AuthModal: React.FC = () => {
                       {authMode === 'signin' ? 'Create an account' : 'Sign in here'}
                     </button>
                   </div>
-                )}
               </div>
             )}
           </motion.div>

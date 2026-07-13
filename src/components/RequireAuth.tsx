@@ -22,8 +22,7 @@ const RequireAuth: React.FC<RequireAuthProps> = ({ children, allowedRoles }) => 
       const isOnlyAdmin = allowedRoles && allowedRoles.length === 1 && allowedRoles.includes('admin');
       const isBizRoute = allowedRoles && (allowedRoles.includes('organizer') || allowedRoles.includes('admin')) && !allowedRoles.includes('customer');
       if (isOnlyAdmin) {
-        navigate('/', { replace: true });
-        openAuthModal('signin', 'customer', true);
+        navigate('/admin/login', { replace: true });
       } else if (isBizRoute) {
         navigate('/', { replace: true });
         openAuthModal('signup', 'organizer');
