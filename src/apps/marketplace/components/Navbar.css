@@ -1,10 +1,12 @@
 .nav-glass {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: var(--nav-height);
   z-index: 1000;
   padding: 0 clamp(1rem, 3vw, 2.5rem);
-  transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
 }
 
@@ -27,7 +29,8 @@
   min-width: 0;
 }
 
-/* Logo */
+/* ── Logo ─────────────────────────────────── */
+
 .nav-glass__logo {
   display: flex;
   align-items: center;
@@ -57,7 +60,8 @@
   color: var(--primary-gold);
 }
 
-/* Center nav links */
+/* ── Center nav links ─────────────────────── */
+
 .nav-glass__links {
   display: flex;
   align-items: center;
@@ -72,8 +76,12 @@
   font-weight: 500;
   color: var(--text-gray);
   border-radius: 8px;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background 0.2s ease, padding 0.3s ease;
   white-space: nowrap;
+  flex-shrink: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .nav-glass__link:hover {
@@ -81,16 +89,18 @@
   background: var(--bg-glass);
 }
 
-/* Right section */
+/* ── Right section ────────────────────────── */
+
 .nav-glass__right {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  flex-shrink: 0;
+  flex-shrink: 1;
   min-width: 0;
 }
 
-/* Search pill — flex item that absorbs space changes */
+/* ── Search pill ──────────────────────────── */
+
 .nav-glass__search {
   display: flex;
   align-items: center;
@@ -99,11 +109,10 @@
   border: 1px solid var(--bg-glass-border);
   border-radius: var(--radius-pill);
   padding: 0.4rem 1rem;
-  /* flex: shrink from 280px down to 40px (icon-only) */
   flex: 0 1 280px;
   min-width: 40px;
   cursor: pointer;
-  transition: flex-basis 0.3s ease, padding 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  transition: flex-basis 0.3s ease, padding 0.3s ease, min-width 0.3s ease;
   overflow: hidden;
   white-space: nowrap;
 }
@@ -114,7 +123,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 0;
-  transition: opacity 0.2s ease, width 0.2s ease;
+  flex: 1;
+  transition: opacity 0.25s ease;
 }
 
 .nav-glass__search:hover {
@@ -127,7 +137,8 @@
   flex-shrink: 0;
 }
 
-/* For Organizers button */
+/* ── For Organizers button ────────────────── */
+
 .nav-glass__org-btn {
   display: flex;
   align-items: center;
@@ -150,7 +161,8 @@
   color: var(--text-white);
 }
 
-/* Cart */
+/* ── Cart ─────────────────────────────────── */
+
 .nav-glass__cart-btn {
   position: relative;
   display: flex;
@@ -189,7 +201,8 @@
   justify-content: center;
 }
 
-/* Login */
+/* ── Login button ─────────────────────────── */
+
 .nav-glass__login-btn {
   display: flex;
   align-items: center;
@@ -210,7 +223,8 @@
   box-shadow: 0 4px 15px var(--primary-glow);
 }
 
-/* Profile */
+/* ── Profile ──────────────────────────────── */
+
 .nav-glass__profile {
   position: relative;
 }
@@ -243,20 +257,28 @@
   font-weight: 700;
   font-size: 0.8rem;
   color: #0A0D14;
+  flex-shrink: 0;
 }
 
 .nav-glass__username {
   font-size: 0.85rem;
   font-weight: 500;
-  transition: opacity 0.2s ease, width 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  max-width: 120px;
+  transition: opacity 0.2s ease, max-width 0.3s ease;
 }
 
 .nav-glass__chevron {
   color: var(--text-muted);
-  transition: transform 0.2s ease, opacity 0.2s ease, width 0.2s ease;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Dropdown */
+/* ── Dropdown ─────────────────────────────── */
+
 .nav-glass__dropdown {
   position: absolute;
   top: calc(100% + 8px);
@@ -317,40 +339,50 @@
   background: rgba(239, 68, 68, 0.1);
 }
 
-/* Mobile menu trigger */
+/* ── Mobile menu trigger ──────────────────── */
+
 .nav-glass__menu-btn {
   display: none;
   color: var(--text-white);
   padding: 0.4rem;
+  flex-shrink: 0;
 }
 
 /* ============================================
    RESPONSIVE BREAKPOINTS
    ============================================ */
 
-/* 1280px: search starts shrinking, nav links tighten */
-@media (max-width: 1280px) {
+/*
+  Width budget at key breakpoints (login state, no profile):
+  ─────────────────────────────────────────────────────────
+  1440px  avail 1354  |  needed ~1103  |  surplus 251
+  1200px  avail 1104  |  needed ~1103  |  surplus   1  ← search starts compressing
+  1100px  avail 1004  |  needed ~1103  |  overflow 99  ← search absorbs this
+  1024px  avail  939  |  links hidden  |  needed ~780  |  surplus 159
+   768px  avail  699  |  search→icon   |  login text hides
+   480px  avail  422  |  search hidden |  login→circle
+*/
+
+/* 1200px — search pill begins shrinking */
+@media (max-width: 1200px) {
   .nav-glass__search {
-    flex-basis: 220px;
-  }
-  .nav-glass__link {
-    padding: 0.5rem 0.75rem;
+    flex-basis: 240px;
   }
 }
 
-/* 1100px: search shrinks further, nav links tighter */
+/* 1100px — search shrinks further, nav links tighten */
 @media (max-width: 1100px) {
   .nav-glass__search {
     flex-basis: 180px;
   }
   .nav-glass__link {
-    padding: 0.5rem 0.6rem;
+    padding: 0.5rem 0.65rem;
     font-size: 0.8rem;
   }
 }
 
-/* 900px: nav links + org btn hidden, hamburger appears */
-@media (max-width: 900px) {
+/* 1024px — nav links hidden, hamburger appears */
+@media (max-width: 1024px) {
   .nav-glass__links {
     display: none;
   }
@@ -363,38 +395,43 @@
     justify-content: center;
   }
   .nav-glass__search {
-    flex-basis: 160px;
+    flex-basis: 200px;
   }
 }
 
-/* 700px: search collapses to icon-only, login text hides */
-@media (max-width: 700px) {
+/* 768px — search collapses to icon, login text hides */
+@media (max-width: 768px) {
   .nav-glass__search {
     flex-basis: 36px;
+    min-width: 36px;
     padding: 0.4rem;
     justify-content: center;
   }
   .nav-glass__search-text {
     opacity: 0;
     width: 0;
-    overflow: hidden;
-  }
-  .nav-glass__login-btn span {
-    opacity: 0;
-    width: 0;
-    overflow: hidden;
-    padding: 0;
-    margin: 0;
+    min-width: 0;
   }
   .nav-glass__login-btn {
     padding: 0.45rem 0.65rem;
   }
+  .nav-glass__login-btn span {
+    opacity: 0;
+    width: 0;
+    min-width: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+  }
 }
 
-/* 480px: minimal — search gone, login/profile compact */
+/* 480px — minimal: logo + cart + auth + hamburger */
 @media (max-width: 480px) {
   .nav-glass {
     padding: 0 1rem;
+  }
+  .nav-glass__container {
+    gap: 0.5rem;
   }
   .nav-glass__search {
     display: none;
@@ -419,8 +456,5 @@
   }
   .nav-glass__chevron {
     display: none;
-  }
-  .nav-glass__container {
-    gap: 0.5rem;
   }
 }
