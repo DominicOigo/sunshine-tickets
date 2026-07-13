@@ -301,7 +301,7 @@
   align-items: center;
 }
 
-.auth__input {
+.auth__input-box input {
   width: 100%;
   padding: 0.55rem 0.75rem 0.55rem 2.25rem;
   background: rgba(255, 255, 255, 0.04);
@@ -314,11 +314,11 @@
   transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
 }
 
-.auth__input::placeholder {
+.auth__input-box input::placeholder {
   color: var(--text-muted);
 }
 
-.auth__input:focus {
+.auth__input-box input:focus {
   border-color: #2E5BFF;
   background: rgba(22, 23, 29, 0.7);
   box-shadow: 0 0 0 3px rgba(46, 91, 255, 0.12);
@@ -332,7 +332,7 @@
   transition: color 0.2s;
 }
 
-.auth__input:focus ~ .auth__input-icon {
+.auth__input-box input:focus ~ .auth__input-icon {
   color: #FF7020;
 }
 
@@ -534,7 +534,7 @@
   .auth__title { font-size: 1.15rem; }
   .auth__subtitle { font-size: 0.75rem; }
   .auth__form { gap: 0.55rem; }
-  .auth__input { padding: 0.5rem 0.65rem 0.5rem 2.1rem; font-size: 0.8rem; }
+  .auth__input-box input { padding: 0.5rem 0.65rem 0.5rem 2.1rem; font-size: 0.8rem; }
   .auth__field-label { font-size: 0.7rem; margin-bottom: 0.2rem; }
   .auth__submit-btn { padding: 0.6rem; font-size: 0.85rem; }
 }
@@ -562,7 +562,7 @@
   .auth__tabs { margin-bottom: 0.85rem; }
   .auth__tab { padding: 0.45rem; font-size: 0.78rem; }
   .auth__form { gap: 0.5rem; }
-  .auth__input { padding: 0.5rem 0.6rem 0.5rem 2rem; font-size: 0.78rem; }
+  .auth__input-box input { padding: 0.5rem 0.6rem 0.5rem 2rem; font-size: 0.78rem; }
   .auth__input-icon { left: 0.7rem; }
   .auth__field-label { font-size: 0.68rem; }
   .auth__submit-btn { padding: 0.55rem; font-size: 0.82rem; margin-top: 0.15rem; }
@@ -578,6 +578,6 @@
 @media (max-width: 360px) {
   .auth__card { padding: 1.25rem 1rem 1rem; }
   .auth__title { font-size: 1rem; }
-  .auth__input { font-size: 0.75rem; }
+  .auth__input-box input { font-size: 0.75rem; }
   .auth__role-card { font-size: 0.7rem; padding: 0.4rem 0.5rem; }
 }
