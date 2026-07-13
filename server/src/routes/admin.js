@@ -768,7 +768,7 @@ const { exec } = require('child_process');
 
 const BACKUP_DIR = path.join(__dirname, '..', '..', 'backups');
 
-if (!fs.existsSync(BACKUP_DIR)) fs.mkdirSync(BACKUP_DIR, { recursive: true });
+try { if (!fs.existsSync(BACKUP_DIR)) fs.mkdirSync(BACKUP_DIR, { recursive: true }); } catch {}
 
 router.get('/backups', ...admin, async (req, res) => {
   try {
