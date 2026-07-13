@@ -19,17 +19,26 @@ export const AuthModal: React.FC = () => {
   const [forgotMode, setForgotMode] = useState(false);
   const [resetSent, setResetSent] = useState(false);
   const [role, setRole] = useState<'customer' | 'organizer'>('customer');
-  
+  const [registrationOpen, setRegistrationOpen] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (isAuthModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isAuthModalOpen]);
+
   useEffect(() => {
     if (isAuthModalOpen) {
       setRole(defaultRole);
     }
   }, [isAuthModalOpen, defaultRole]);
-  
-  const [registrationOpen, setRegistrationOpen] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     request('/settings/registration-open')
@@ -40,18 +49,15 @@ export const AuthModal: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
-    // Validations
+
     if (!username.trim() || username.length < 3) {
       setError('Username must be at least 3 characters.');
       return;
     }
-    
     if (password.length < 6) {
       setError('Password must be at least 6 characters long.');
       return;
     }
-
     if (authMode === 'signup') {
       if (!email.trim() || !email.includes('@')) {
         setError('Please enter a valid email address.');
@@ -81,11 +87,10 @@ export const AuthModal: React.FC = () => {
         }
         loggedInUser = await signUp(username, email, password, name, role, undefined, phone || undefined);
       }
-      
+
       setSuccess(true);
       setLoading(false);
-      
-      // Delay closing to show the success screen
+
       setTimeout(() => {
         setSuccess(false);
         if (authMode === 'signup' && role === 'organizer') {
@@ -141,189 +146,182 @@ export const AuthModal: React.FC = () => {
   return (
     <AnimatePresence>
       {isAuthModalOpen && (
-        <div className="auth-overlay-fixed">
-          {/* Backdrop Blur Overlay */}
-          <motion.div 
-            className="auth-backdrop"
+        <div className="auth__overlay">
+          <motion.div
+            className="auth__backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeAuthModal}
           />
 
-          {/* Modal Container */}
-          <motion.div 
-            className="auth-modal-container"
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          <motion.div
+            className="auth__card"
+            initial={{ opacity: 0, scale: 0.92, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 220 }}
+            exit={{ opacity: 0, scale: 0.92, y: 16 }}
+            transition={{ type: 'spring', damping: 28, stiffness: 240 }}
           >
-            {/* Background Glow Accents */}
-            <div className="auth-glow auth-glow--orange" />
-            <div className="auth-glow auth-glow--cyan" />
+            <div className="auth__glow auth__glow--warm" />
+            <div className="auth__glow auth__glow--cool" />
 
-            {/* Close Button */}
-            <button 
-              className="auth-close-btn" 
-              onClick={closeAuthModal}
-              aria-label="Close modal"
-            >
-              <X size={20} />
+            <button className="auth__close" onClick={closeAuthModal} aria-label="Close">
+              <X size={18} />
             </button>
 
             {success ? (
-              /* Success Screen */
-              <motion.div 
-                className="auth-success-screen"
+              <motion.div
+                className="auth__success"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
               >
-                <div className="success-icon-wrapper">
-                  <ShieldCheck size={48} className="cyan-neon" />
+                <div className="auth__success-icon">
+                  <ShieldCheck size={36} />
                 </div>
-                <h3 className="success-title">
+                <h3 className="auth__success-heading">
                   {authMode === 'signin' ? 'Welcome Back!' : 'Account Created'}
                 </h3>
-                <p className="success-subtitle">
-                  {authMode === 'signin' 
-                    ? 'Successfully signed in. Redirecting...' 
+                <p className="auth__success-text">
+                  {authMode === 'signin'
+                    ? 'Successfully signed in. Redirecting...'
                     : 'Your account is ready. Redirecting...'}
                 </p>
-                <div className="success-glow-line" />
+                <div className="auth__success-bar" />
               </motion.div>
             ) : forgotMode ? (
-              /* Forgot Password Screen */
-              <div className="auth-form-wrapper">
-                <button className="auth-back-link" onClick={() => { setForgotMode(false); setResetSent(false); setError(''); }}>
-                  ← Back to Sign In
+              <div>
+                <button className="auth__back-link" onClick={() => { setForgotMode(false); setResetSent(false); setError(''); }}>
+                  &larr; Back to Sign In
                 </button>
+
                 {resetSent ? (
-                  <motion.div className="auth-success-screen" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                    <div className="success-icon-wrapper">
-                      <Mail size={48} className="cyan-neon" />
+                  <motion.div className="auth__success" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    <div className="auth__success-icon">
+                      <Mail size={36} />
                     </div>
-                    <h3 className="success-title">Check Your Email</h3>
-                    <p className="success-subtitle">A reset link has been sent to <strong>{email}</strong>.</p>
-                    <div className="success-glow-line" />
-                    <button className="auth-toggle-link auth-toggle-link--mt" onClick={() => { setForgotMode(false); setResetSent(false); }}>
+                    <h3 className="auth__success-heading">Check Your Email</h3>
+                    <p className="auth__success-text">
+                      A reset link has been sent to <strong>{email}</strong>.
+                    </p>
+                    <div className="auth__success-bar" />
+                    <button className="auth__action-link" onClick={() => { setForgotMode(false); setResetSent(false); }}>
                       Back to Sign In
                     </button>
                   </motion.div>
                 ) : (
                   <>
-                    <div className="auth-header">
-                      <h2 className="auth-header__title">Reset Password</h2>
-                      <p className="auth-header__subtitle">Enter your email and we'll send you a reset link.</p>
+                    <div className="auth__heading">
+                      <h2 className="auth__title">Reset Password</h2>
+                      <p className="auth__subtitle">Enter your email and we'll send you a reset link.</p>
                     </div>
+
                     <AnimatePresence>
                       {error && (
-                        <motion.div className="auth-error-banner" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-                          <AlertCircle size={16} /><span>{error}</span>
+                        <motion.div className="auth__alert" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+                          <AlertCircle size={14} /><span>{error}</span>
                         </motion.div>
                       )}
                     </AnimatePresence>
-                    <form onSubmit={handleReset} className="auth-form-fields">
-                      <div className="auth-input-group">
-                        <label>Email Address</label>
-                        <div className="auth-input-wrapper">
-                          <Mail size={18} className="input-icon" />
+
+                    <form onSubmit={handleReset} className="auth__form">
+                      <div className="auth__field">
+                        <label className="auth__field-label">Email Address</label>
+                        <div className="auth__input-box">
                           <input type="email" placeholder="yourname@domain.co.ke" value={email} onChange={e => setEmail(e.target.value)} required disabled={loading} />
+                          <Mail size={16} className="auth__input-icon" />
                         </div>
                       </div>
-                      <button type="submit" className="auth-submit-btn" disabled={loading}>
+                      <button type="submit" className="auth__submit-btn" disabled={loading}>
                         {loading
-                          ? <span className="spinner-dots"><span className="dot"/><span className="dot"/><span className="dot"/></span>
-                          : <><span>Send Reset Link</span><ArrowRight size={18} /></>}
+                          ? <span className="auth__spinner"><span className="auth__spinner-dot"/><span className="auth__spinner-dot"/><span className="auth__spinner-dot"/></span>
+                          : <><span>Send Reset Link</span><ArrowRight size={16} /></>}
                       </button>
                     </form>
                   </>
                 )}
               </div>
             ) : (
-              /* Form Screen */
-              <div className="auth-form-wrapper">
-                <div className="auth-header">
-                  <div className="auth-header__icon">
-                    <Sparkles size={24} className="orange-neon" />
+              <div>
+                <div className="auth__heading">
+                  <div className="auth__heading-icon">
+                    <Sparkles size={20} />
                   </div>
-                  <h2 className="auth-header__title">
+                  <h2 className="auth__title">
                     {authMode === 'signin' ? 'Sign In to Sunshine' : 'Create Account'}
                   </h2>
-                  <p className="auth-header__subtitle">
-                    {authMode === 'signin' 
-                      ? 'Access your tickets, exclusive events, and local offers' 
+                  <p className="auth__subtitle">
+                    {authMode === 'signin'
+                      ? 'Access your tickets, exclusive events, and local offers'
                       : "Join Kenya\u2019s premium event ticket marketplace"}
                   </p>
                 </div>
 
-                <div className="auth-tabs">
-                    <button 
-                      type="button"
-                      className={`auth-tab ${authMode === 'signin' ? 'active' : ''}`}
-                      onClick={() => { setError(''); setAuthMode('signin'); }}
-                    >
-                      Sign In
-                      {authMode === 'signin' && (
-                        <motion.div className="active-tab-line" layoutId="activeTabLine" />
-                      )}
-                    </button>
-                    <button 
-                      type="button"
-                      className={`auth-tab ${authMode === 'signup' ? 'active' : ''} ${!registrationOpen ? 'disabled' : ''}`}
-                      onClick={() => { if (!registrationOpen) return; setError(''); setAuthMode('signup'); }}
-                      title={!registrationOpen ? 'Registration is currently closed' : ''}
-                    >
-                      Register
-                      {authMode === 'signup' && (
-                        <motion.div className="active-tab-line" layoutId="activeTabLine" />
-                      )}
-                    </button>
-                  </div>
+                <div className="auth__tabs">
+                  <button
+                    type="button"
+                    className={`auth__tab ${authMode === 'signin' ? 'auth__tab--active' : ''}`}
+                    onClick={() => { setError(''); setAuthMode('signin'); }}
+                  >
+                    Sign In
+                    {authMode === 'signin' && (
+                      <motion.div className="auth__tab-indicator" layoutId="activeTabLine" />
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    className={`auth__tab ${authMode === 'signup' ? 'auth__tab--active' : ''} ${!registrationOpen ? 'auth__tab--disabled' : ''}`}
+                    onClick={() => { if (!registrationOpen) return; setError(''); setAuthMode('signup'); }}
+                    title={!registrationOpen ? 'Registration is currently closed' : ''}
+                  >
+                    Register
+                    {authMode === 'signup' && (
+                      <motion.div className="auth__tab-indicator" layoutId="activeTabLine" />
+                    )}
+                  </button>
+                </div>
+
                 {!registrationOpen && authMode === 'signup' && (
-                  <div className="auth-error-banner auth-error-banner--warning">
-                    <AlertCircle size={16} />
+                  <div className="auth__alert auth__alert--warning">
+                    <AlertCircle size={14} />
                     <span>Registration is currently closed. Please contact support for assistance.</span>
                   </div>
                 )}
 
-                {/* Error Banner */}
                 <AnimatePresence>
                   {error && (
-                    <motion.div 
-                      className="auth-error-banner"
-                      initial={{ opacity: 0, y: -10 }}
+                    <motion.div
+                      className="auth__alert"
+                      initial={{ opacity: 0, y: -8 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
+                      exit={{ opacity: 0, y: -8 }}
                     >
-                      <AlertCircle size={16} />
+                      <AlertCircle size={14} />
                       <span>{error}</span>
                     </motion.div>
                   )}
                 </AnimatePresence>
 
-                {/* Main Form */}
-                <form onSubmit={handleSubmit} className="auth-form-fields">
+                <form onSubmit={handleSubmit} className="auth__form">
                   {authMode === 'signup' && registrationOpen && (
-                    <div className="auth-input-group">
-                      <label>Register As</label>
-                      <div className="auth-role-group">
-                        <label className={`auth-role-option ${role === 'customer' ? 'active' : ''}`}>
-                          <input 
-                            type="radio" 
-                            name="auth-role" 
-                            value="customer" 
-                            checked={role === 'customer'} 
+                    <div className="auth__field">
+                      <label className="auth__field-label">Register As</label>
+                      <div className="auth__role-group">
+                        <label className={`auth__role-card ${role === 'customer' ? 'auth__role-card--selected' : ''}`}>
+                          <input
+                            type="radio"
+                            name="auth-role"
+                            value="customer"
+                            checked={role === 'customer'}
                             onChange={() => setRole('customer')}
                           />
                           <span>Ticket Buyer</span>
                         </label>
-                        <label className={`auth-role-option ${role === 'organizer' ? 'active' : ''}`}>
-                          <input 
-                            type="radio" 
-                            name="auth-role" 
-                            value="organizer" 
-                            checked={role === 'organizer'} 
+                        <label className={`auth__role-card ${role === 'organizer' ? 'auth__role-card--selected' : ''}`}>
+                          <input
+                            type="radio"
+                            name="auth-role"
+                            value="organizer"
+                            checked={role === 'organizer'}
                             onChange={() => setRole('organizer')}
                           />
                           <span>Event Organizer</span>
@@ -331,144 +329,144 @@ export const AuthModal: React.FC = () => {
                       </div>
                     </div>
                   )}
+
                   {authMode === 'signup' && registrationOpen && (
-                    <div className="auth-input-group">
-                      <label htmlFor="auth-name">Full Name</label>
-                      <div className="auth-input-wrapper">
-                        <User size={18} className="input-icon" />
-                        <input 
+                    <div className="auth__field">
+                      <label className="auth__field-label" htmlFor="auth-name">Full Name</label>
+                      <div className="auth__input-box">
+                        <input
                           id="auth-name"
-                          type="text" 
+                          type="text"
                           placeholder="e.g. Dominic Kiprop"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           required
                           disabled={loading}
                         />
+                        <User size={16} className="auth__input-icon" />
                       </div>
                     </div>
                   )}
 
-                  <div className="auth-input-group">
-                    <label htmlFor="auth-username">Username</label>
-                    <div className="auth-input-wrapper">
-                      <User size={18} className="input-icon" />
-                      <input 
+                  <div className="auth__field">
+                    <label className="auth__field-label" htmlFor="auth-username">Username</label>
+                    <div className="auth__input-box">
+                      <input
                         id="auth-username"
-                        type="text" 
+                        type="text"
                         placeholder="your_username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
                         disabled={loading}
                       />
+                      <User size={16} className="auth__input-icon" />
                     </div>
                   </div>
 
                   {authMode === 'signup' && registrationOpen && (
-                    <div className="auth-input-group">
-                      <label htmlFor="auth-email">Email Address</label>
-                      <div className="auth-input-wrapper">
-                        <Mail size={18} className="input-icon" />
-                        <input 
+                    <div className="auth__field">
+                      <label className="auth__field-label" htmlFor="auth-email">Email Address</label>
+                      <div className="auth__input-box">
+                        <input
                           id="auth-email"
-                          type="email" 
+                          type="email"
                           placeholder="yourname@domain.co.ke"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           required
                           disabled={loading}
                         />
+                        <Mail size={16} className="auth__input-icon" />
                       </div>
                     </div>
                   )}
 
                   {authMode === 'signup' && registrationOpen && (
-                    <div className="auth-input-group">
-                      <label htmlFor="auth-phone">Phone Number (optional)</label>
-                      <div className="auth-input-wrapper">
-                        <Phone size={18} className="input-icon" />
-                        <input 
+                    <div className="auth__field">
+                      <label className="auth__field-label" htmlFor="auth-phone">Phone Number (optional)</label>
+                      <div className="auth__input-box">
+                        <input
                           id="auth-phone"
-                          type="tel" 
+                          type="tel"
                           placeholder="07XXXXXXXX"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           disabled={loading}
                         />
+                        <Phone size={16} className="auth__input-icon" />
                       </div>
                     </div>
                   )}
 
-                  <div className="auth-input-group">
-                    <label htmlFor="auth-password">Password</label>
-                    <div className="auth-input-wrapper">
-                      <Lock size={18} className="input-icon" />
-                      <input 
+                  <div className="auth__field">
+                    <label className="auth__field-label" htmlFor="auth-password">Password</label>
+                    <div className="auth__input-box">
+                      <input
                         id="auth-password"
-                        type="password" 
+                        type="password"
                         placeholder="••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                         disabled={loading}
                       />
+                      <Lock size={16} className="auth__input-icon" />
                     </div>
                   </div>
 
                   {authMode === 'signup' && registrationOpen && (
-                    <div className="auth-input-group">
-                      <label htmlFor="auth-confirm">Confirm Password</label>
-                      <div className="auth-input-wrapper">
-                        <Lock size={18} className="input-icon" />
-                        <input 
+                    <div className="auth__field">
+                      <label className="auth__field-label" htmlFor="auth-confirm">Confirm Password</label>
+                      <div className="auth__input-box">
+                        <input
                           id="auth-confirm"
-                          type="password" 
+                          type="password"
                           placeholder="••••••••"
                           value={confirmPassword}
                           onChange={(e) => setConfirmPassword(e.target.value)}
                           required
                           disabled={loading}
                         />
+                        <Lock size={16} className="auth__input-icon" />
                       </div>
                     </div>
                   )}
 
                   {authMode === 'signin' && (
-                    <div className="auth-forgot-link">
-                      <button type="button" className="text-btn" onClick={() => { setError(''); setForgotMode(true); }}>Forgot Password?</button>
+                    <div className="auth__forgot-link">
+                      <button type="button" className="auth__forgot-btn" onClick={() => { setError(''); setForgotMode(true); }}>
+                        Forgot Password?
+                      </button>
                     </div>
                   )}
 
-                  {/* Submit Button */}
-                  <button 
-                    type="submit" 
-                    className="auth-submit-btn"
+                  <button
+                    type="submit"
+                    className="auth__submit-btn"
                     disabled={loading || (authMode === 'signup' && !registrationOpen)}
                   >
                     {loading ? (
-                      <span className="spinner-dots">
-                        <span className="dot" />
-                        <span className="dot" />
-                        <span className="dot" />
+                      <span className="auth__spinner">
+                        <span className="auth__spinner-dot" />
+                        <span className="auth__spinner-dot" />
+                        <span className="auth__spinner-dot" />
                       </span>
                     ) : (
                       <>
                         <span>{authMode === 'signin' ? 'Sign In' : !registrationOpen ? 'Registration Closed' : 'Create Account'}</span>
-                        <ArrowRight size={18} />
+                        <ArrowRight size={16} />
                       </>
                     )}
                   </button>
                 </form>
 
-                <div className="auth-footer-switch">
-                    <span>
-                      {authMode === 'signin' ? "Don't have an account?" : 'Already have an account?'}
-                    </span>
-                    <button type="button" className="auth-toggle-link" onClick={toggleMode}>
-                      {authMode === 'signin' ? 'Create an account' : 'Sign in here'}
-                    </button>
-                  </div>
+                <div className="auth__footer">
+                  <span>{authMode === 'signin' ? "Don't have an account?" : 'Already have an account?'}</span>
+                  <button type="button" className="auth__switch-btn" onClick={toggleMode}>
+                    {authMode === 'signin' ? 'Create an account' : 'Sign in here'}
+                  </button>
+                </div>
               </div>
             )}
           </motion.div>
