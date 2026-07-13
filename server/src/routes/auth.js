@@ -239,8 +239,7 @@ router.post('/admin-signin', async (req, res) => {
     });
 
     if (!response.ok) {
-      const body = await response.text();
-      return res.status(401).json({ error: 'Invalid or expired session', detail: body });
+      return res.status(401).json({ error: 'Invalid or expired session' });
     }
 
     const supabaseUser = await response.json();
@@ -271,7 +270,7 @@ router.post('/admin-signin', async (req, res) => {
     res.json({ token: sign(user), user: safeUser });
   } catch (e) {
     console.error('Admin signin error:', e);
-    res.status(500).json({ error: 'Admin authentication failed', detail: e.message });
+    res.status(500).json({ error: 'Admin authentication failed' });
   }
 });
 
