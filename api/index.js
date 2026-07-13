@@ -1,5 +1,6 @@
 const express = require('express');
 const cors    = require('cors');
+const jwt     = require('jsonwebtoken');
 
 const app = express();
 const pool = require('../server/src/db/pool');
@@ -11,13 +12,8 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json());
 
-app.get('/api/health', async (req, res) => {
-  try {
-    const { rows } = await pool.query('SELECT NOW() as time');
-    res.json({ status: 'ok', time: rows[0].time, db: 'connected' });
-  } catch (err) {
-    res.json({ status: 'ok', time: new Date(), db: 'error', error: err.message });
-  }
-});
+app.use('/api/auth',            require('../server/src/routes/auth'));
+
+app.get('/api/health', (req, res) => res.json({ status: 'ok', time: new Date() }));
 
 module.exports = app;
