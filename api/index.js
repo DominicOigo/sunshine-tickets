@@ -46,6 +46,18 @@ app.use('/api/payment-methods', require('../server/src/routes/payment-methods'))
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok', time: new Date() }));
 
+// TEMP debug — remove after testing
+app.get('/api/_debug/supabase', (req, res) => {
+  const url = process.env.VITE_SUPABASE_URL || 'NOT SET';
+  const key = process.env.VITE_SUPABASE_ANON_KEY || 'NOT SET';
+  res.json({
+    urlSet: url !== 'NOT SET',
+    keySet: key !== 'NOT SET',
+    urlLen: url.length,
+    keyPrefix: key.substring(0, 10),
+  });
+});
+
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(err.status || 500).json({ error: err.message || 'Internal server error' });
