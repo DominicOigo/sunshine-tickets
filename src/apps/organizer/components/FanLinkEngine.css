@@ -1,0 +1,333 @@
+.fan-link-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Stats bar */
+.fan-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.fan-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: rgba(15, 16, 20, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all 0.3s ease;
+}
+
+.fan-stat-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0, 242, 254, 0.15);
+}
+
+.fan-stat-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.fan-stat-value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.fan-stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-gray);
+  margin-top: 2px;
+}
+
+.fan-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 1100px) {
+  .fan-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.leaderboard-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.sc-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #00F2FE;
+  background: rgba(0, 242, 254, 0.05);
+  border: 1px solid rgba(0, 242, 254, 0.15);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-pill);
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.leaderboard-table th {
+  padding: 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  text-transform: uppercase;
+}
+
+.leaderboard-table td {
+  padding: 1rem;
+  font-size: 0.9rem;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.leaderboard-table tbody tr {
+  transition: background-color 0.3s ease;
+}
+
+.leaderboard-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+/* Rank Styling */
+.rank-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-gray);
+}
+
+.top-rank.rank-1 .rank-number {
+  background: linear-gradient(135deg, #FF9500 0%, #FF7020 100%);
+  border-color: #FF7020;
+  color: white;
+  box-shadow: 0 0 10px rgba(255, 112, 32, 0.35);
+}
+
+.top-rank.rank-2 .rank-number {
+  background: rgba(0, 242, 254, 0.1);
+  border-color: #00F2FE;
+  color: #00F2FE;
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+}
+
+.top-rank.rank-3 .rank-number {
+  background: rgba(46, 91, 255, 0.15);
+  border-color: #2E5BFF;
+  color: white;
+}
+
+/* Promoter Profiles */
+.promoter-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar-letter {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+}
+
+.top-rank.rank-1 .avatar-letter {
+  background: rgba(255, 112, 32, 0.1);
+  border: 1px solid rgba(255, 112, 32, 0.2);
+  color: #FF7020;
+}
+
+.referrals-count {
+  font-weight: 800;
+  color: white;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.reward-pill {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #00F2FE;
+  background: rgba(0, 242, 254, 0.05);
+  border: 1px solid rgba(0, 242, 254, 0.15);
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+}
+
+.top-rank.rank-1 .reward-pill {
+  color: #FF7020;
+  background: rgba(255, 112, 32, 0.05);
+  border-color: rgba(255, 112, 32, 0.15);
+}
+
+/* Rewards Config (Right side) */
+.rewards-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.rewards-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
+.reward-card-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-md);
+}
+
+.reward-target-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #FF7020;
+  background: rgba(255, 112, 32, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(255, 112, 32, 0.2);
+}
+
+.reward-target-circle span {
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.reward-target-circle small {
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: var(--text-gray);
+  letter-spacing: 0.5px;
+}
+
+.reward-row-info {
+  flex: 1;
+}
+
+.reward-row-info h4 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 2px;
+}
+
+.reward-row-info p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.reward-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #00F2FE;
+  background: rgba(0, 242, 254, 0.05);
+  border: 1px solid rgba(0, 242, 254, 0.15);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* Sharing Preview Link */
+.referral-sharing-preview {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  position: relative;
+}
+
+.share-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(0, 242, 254, 0.05);
+  border: 1px solid rgba(0, 242, 254, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.1);
+}
+
+.referral-sharing-preview h4 {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 2px;
+}
+
+.url-preview {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: #00F2FE;
+}
+
+.arrow-share {
+  margin-left: auto;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.referral-sharing-preview:hover .arrow-share {
+  color: #00F2FE;
+}

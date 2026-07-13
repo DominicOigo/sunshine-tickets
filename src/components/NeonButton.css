@@ -1,0 +1,63 @@
+.neon-button {
+  position: relative;
+  padding: 1rem 2rem;
+  border-radius: var(--radius-button);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border: 1px solid transparent;
+}
+
+.neon-button.primary {
+  background: var(--gradient-sunrise);
+  color: #FFFFFF;
+  box-shadow: 0 10px 20px rgba(255, 69, 0, 0.2);
+}
+
+.neon-button.primary:hover {
+  box-shadow: 0 15px 30px rgba(255, 69, 0, 0.4), 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.neon-button.secondary {
+  background: var(--electric-cobalt);
+  color: #FFFFFF;
+  box-shadow: 0 10px 20px rgba(46, 91, 255, 0.2);
+}
+
+.neon-button.secondary:hover {
+  box-shadow: 0 15px 30px rgba(46, 91, 255, 0.4), 0 0 10px rgba(0, 242, 255, 0.3);
+}
+
+.neon-button.outline {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  color: var(--text-main);
+  backdrop-filter: blur(10px);
+}
+
+.neon-button.outline:hover {
+  border-color: var(--neon-cyan);
+  background: rgba(0, 242, 255, 0.05);
+  color: var(--neon-cyan);
+  box-shadow: 0 0 15px var(--neon-cyan-glow);
+}
+
+.button-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.2) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.neon-button:hover .button-glow {
+  opacity: 1;
+}

@@ -1,0 +1,89 @@
+.whychoose-section {
+  padding: var(--section-padding) 0;
+  background: var(--bg-deep);
+}
+
+.whychoose-section__container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 3vw, 2.5rem);
+}
+
+.whychoose-section__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.whychoose-section__tag {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  background: var(--bg-glass);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary-gold);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.whychoose-section__title {
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  letter-spacing: -1px;
+}
+
+.whychoose-section__desc {
+  color: var(--text-muted);
+  font-size: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.whychoose-section__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.whychoose-section__card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.whychoose-section__card:hover {
+  border-color: rgba(253, 184, 19, 0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(253, 184, 19, 0.08);
+}
+
+.whychoose-section__card-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 1rem;
+  background: rgba(253, 184, 19, 0.1);
+  border: 1px solid rgba(253, 184, 19, 0.2);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-gold);
+}
+
+.whychoose-section__card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.whychoose-section__card-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}

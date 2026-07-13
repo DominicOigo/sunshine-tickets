@@ -1,0 +1,119 @@
+.featured-org-section {
+  padding: var(--section-padding) 0;
+  background: var(--bg-deep);
+}
+
+.featured-org-section__container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 3vw, 2.5rem);
+}
+
+.featured-org-section__header {
+  margin-bottom: 2rem;
+}
+
+.featured-org-section__tag {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  background: var(--bg-glass);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary-gold);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.featured-org-section__title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 0.5rem;
+}
+
+.featured-org-section__desc {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.featured-org-section__scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 6px 0 0.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.featured-org-section__scroll::-webkit-scrollbar { height: 4px; }
+
+.featured-org-section__grid {
+  display: flex;
+  gap: 1rem;
+  padding-top: 4px;
+}
+
+.featured-org-section__card {
+  flex: 0 0 280px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.featured-org-section__card:hover {
+  border-color: rgba(253, 184, 19, 0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.featured-org-section__card-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  background: var(--primary-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: #0A0D14;
+  flex-shrink: 0;
+}
+
+.featured-org-section__card-info {
+  min-width: 0;
+}
+
+.featured-org-section__card-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.3rem;
+}
+
+.featured-org-section__card-name .verified {
+  color: var(--accent-success);
+  flex-shrink: 0;
+}
+
+.featured-org-section__card-stats {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.featured-org-section__card-stats span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}

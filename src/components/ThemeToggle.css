@@ -1,0 +1,33 @@
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+}
+
+.toggle-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.neon-cobalt {
+  color: var(--electric-cobalt);
+  filter: drop-shadow(0 0 5px rgba(46, 91, 255, 0.5));
+}
+
+.neon-sunrise {
+  color: #FFD700;
+  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+}

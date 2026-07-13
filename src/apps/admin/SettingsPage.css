@@ -1,0 +1,114 @@
+.sp-shell { display: flex; flex-direction: column; gap: 1.25rem; }
+
+.sp-heading h1 { font-size: 1.4rem; font-weight: 800; color: white; }
+.sp-heading p  { font-size: 0.85rem; color: var(--text-gray); margin-top: 2px; }
+
+.sp-layout { display: grid; grid-template-columns: 200px 1fr; gap: 1.25rem; align-items: start; min-width: 0; }
+.sp-layout > * { min-width: 0; overflow: hidden; }
+
+/* Sidebar tabs */
+.sp-tabs { display: flex; flex-direction: column; gap: 0.25rem; padding: 0.75rem; }
+
+.sp-tab {
+  display: flex; align-items: center; gap: 0.65rem;
+  padding: 0.65rem 0.85rem; border-radius: 9px;
+  font-size: 0.83rem; font-weight: 700; color: var(--text-gray);
+  text-align: left; width: 100%;
+  transition: all 0.2s;
+}
+.sp-tab:hover { background: rgba(255,255,255,0.04); color: white; }
+.sp-tab.active { background: rgba(255,149,0,0.08); color: white; border: 1px solid rgba(255,149,0,0.2); }
+.sp-tab-icon { display: flex; flex-shrink: 0; }
+
+/* Section */
+.sp-section { display: flex; flex-direction: column; gap: 0; }
+
+.sp-section-header {
+  display: flex; align-items: center; gap: 0.65rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.sp-section-header h3 { font-size: 1rem; font-weight: 800; color: white; }
+
+.sp-fields { display: flex; flex-direction: column; gap: 1rem; }
+
+.sp-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+.sp-field { display: flex; flex-direction: column; gap: 0.4rem; }
+.sp-field label { font-size: 0.78rem; font-weight: 700; color: var(--text-gray); }
+
+.sp-field input,
+.sp-field select {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  color: white; font-size: 0.85rem; font-family: inherit;
+  padding: 0.6rem 0.85rem; outline: none;
+  transition: border-color 0.2s;
+}
+.sp-field input:focus,
+.sp-field select:focus { border-color: rgba(255,149,0,0.4); }
+.sp-field input::placeholder { color: var(--text-muted); }
+
+.sp-sub-heading {
+  display: flex; align-items: center; gap: 0.4rem;
+  font-size: 0.8rem; font-weight: 800; color: var(--text-gray);
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+/* Toggles */
+.sp-toggles { display: flex; flex-direction: column; gap: 0; }
+
+.sp-toggle-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.sp-toggle-row:last-child { border-bottom: none; }
+
+.sp-toggle-label { display: block; font-size: 0.85rem; font-weight: 700; color: white; }
+.sp-toggle-sub   { display: block; font-size: 0.74rem; color: var(--text-muted); margin-top: 2px; }
+
+.sp-toggle {
+  position: relative;
+  width: 42px; height: 24px; border-radius: 12px; flex-shrink: 0;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+  transition: all 0.25s; cursor: pointer;
+}
+.sp-toggle.on {
+  background: var(--toggle-color, #FF9500);
+  border-color: var(--toggle-color, #FF9500);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--toggle-color, #FF9500) 40%, transparent);
+}
+.sp-toggle-knob {
+  position: absolute; top: 3px; left: 3px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: white; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+.sp-toggle.on .sp-toggle-knob { transform: translateX(18px); }
+
+/* Save row */
+.sp-save-row { display: flex; justify-content: flex-end; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05); }
+
+.sp-save-btn {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.65rem 1.4rem;
+  background: linear-gradient(135deg, #FF9500, #FF7020);
+  border-radius: 9px;
+  color: white; font-size: 0.85rem; font-weight: 800;
+  transition: all 0.2s; box-shadow: 0 4px 14px rgba(255,112,32,0.3);
+}
+.sp-save-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,112,32,0.4); }
+.sp-save-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner { animation: spin 0.8s linear infinite; }
+
+@media (max-width: 768px) {
+  .sp-layout { grid-template-columns: 1fr; }
+  .sp-tabs { flex-direction: row; flex-wrap: wrap; }
+  .sp-tab { flex: 1; justify-content: center; min-width: 120px; }
+  .sp-field-row { grid-template-columns: 1fr; }
+}

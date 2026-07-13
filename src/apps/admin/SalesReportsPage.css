@@ -1,0 +1,41 @@
+/* SalesReportsPage uses up-* classes from UsersPage.css */
+.up-stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+}
+.up-method-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+  padding: 1rem;
+}
+.up-method-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.up-method-label {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.up-method-count {
+  font-size: 0.8rem;
+  color: var(--text-gray);
+}
+.up-method-rev {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-light);
+}
+.admin-td-rev {
+  font-weight: 600;
+  color: #FF9500;
+}

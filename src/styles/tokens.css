@@ -1,0 +1,41 @@
+:root {
+  /* Gold Accent */
+  --primary-gold: #FDB813;
+  --primary-gold-hover: #FFC93C;
+  --primary-glow: rgba(253, 184, 19, 0.3);
+  --primary-gradient: linear-gradient(135deg, #FDB813 0%, #FFB703 100%);
+  
+  /* Backgrounds */
+  --bg-deep: #0A0D14;
+  --bg-card: #111827;
+  --bg-input: #1E2538;
+  --bg-glass: rgba(255,255,255,0.05);
+  --bg-glass-hover: rgba(255,255,255,0.08);
+  --bg-glass-border: rgba(255,255,255,0.10);
+  
+  /* Text */
+  --text-white: #FFFFFF;
+  --text-gray: #D1D5DB;
+  --text-muted: #9CA3AF;
+  
+  /* States */
+  --accent-success: #10B981;
+  --accent-error: #EF4446;
+  
+  /* Geometry */
+  --radius-xl: 2.5rem;
+  --radius-lg: 1.5rem;
+  --radius-md: 1rem;
+  --radius-sm: 0.75rem;
+  --radius-pill: 999px;
+  
+  /* Layout */
+  --nav-height: 80px;
+  --container-width: 1440px;
+  --container-max: 1440px;
+  --section-padding: 5rem;
+  
+  /* Legacy compatibility */
+  --bg-primary: var(--bg-deep);
+  --text-main: var(--text-white);
+}

@@ -1,0 +1,96 @@
+.categories-section {
+  padding: var(--section-padding) 0;
+  background: var(--bg-deep);
+}
+
+.categories-section__container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 3vw, 2.5rem);
+}
+
+.categories-section__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.categories-section__tag {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  background: var(--bg-glass);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary-gold);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.categories-section__title {
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  letter-spacing: -1px;
+}
+
+.categories-section__desc {
+  color: var(--text-muted);
+  font-size: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.categories-section__grid-wrap {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 6px 0 0.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+.categories-section__grid {
+  display: flex;
+  gap: 1rem;
+  scroll-snap-type: x mandatory;
+  padding-top: 4px;
+}
+
+.categories-section__grid::-webkit-scrollbar { height: 4px; }
+
+.categories-section__card {
+  flex: 0 0 160px;
+  scroll-snap-align: start;
+  background: var(--bg-card);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.categories-section__card:hover {
+  border-color: rgba(253, 184, 19, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(253, 184, 19, 0.08);
+}
+
+.categories-section__card-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.categories-section__card-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-white);
+}
+
+.categories-section__card-count {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}

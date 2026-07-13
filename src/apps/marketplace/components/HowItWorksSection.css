@@ -1,0 +1,121 @@
+.howitworks-section {
+  padding: var(--section-padding) 0;
+  background: var(--bg-deep);
+}
+
+.howitworks-section__container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 3vw, 2.5rem);
+}
+
+.howitworks-section__header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.howitworks-section__tag {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  background: var(--bg-glass);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary-gold);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.howitworks-section__title {
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  letter-spacing: -1px;
+}
+
+.howitworks-section__desc {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.howitworks-section__steps {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  position: relative;
+}
+
+.howitworks-section__step {
+  flex: 1;
+  max-width: 320px;
+  text-align: center;
+  position: relative;
+}
+
+.howitworks-section__step-number {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 1rem;
+  background: var(--primary-gradient);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #0A0D14;
+}
+
+.howitworks-section__step-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1rem;
+  background: rgba(253, 184, 19, 0.1);
+  border: 1px solid rgba(253, 184, 19, 0.2);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-gold);
+}
+
+.howitworks-section__step-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.howitworks-section__step-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.howitworks-section__connector {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .howitworks-section__steps {
+    position: relative;
+  }
+  .howitworks-section__connector {
+    display: block;
+    position: absolute;
+    top: 48px;
+    left: calc(50% + 80px);
+    width: calc(100% - 160px);
+    height: 2px;
+    background: linear-gradient(90deg, rgba(253,184,19,0.3), rgba(253,184,19,0.1));
+  }
+}
+
+@media (max-width: 768px) {
+  .howitworks-section__steps {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+}

@@ -1,0 +1,212 @@
+.footer-glass {
+  background: var(--bg-card);
+  border-top: 1px solid var(--bg-glass-border);
+  padding: 4rem 0 0;
+}
+
+.footer-glass__container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 3vw, 2.5rem);
+}
+
+.footer-glass__grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+  gap: 2.5rem;
+}
+
+.footer-glass__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.footer-glass__logo-icon {
+  width: 30px;
+  height: 30px;
+  background: var(--primary-gradient);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0A0D14;
+}
+
+.footer-glass__logo .gold {
+  color: var(--primary-gold);
+}
+
+.footer-glass__desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+  max-width: 300px;
+}
+
+.footer-glass__social {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.footer-glass__social-link {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-glass);
+  border: 1px solid var(--bg-glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+}
+
+.footer-glass__social-link:hover {
+  background: var(--bg-glass-hover);
+  color: var(--primary-gold);
+  border-color: rgba(253, 184, 19, 0.3);
+}
+
+.footer-glass__heading {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  color: var(--text-white);
+}
+
+.footer-glass__link {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+  transition: color 0.2s ease;
+}
+
+.footer-glass__link:hover {
+  color: var(--primary-gold);
+}
+
+/* Newsletter */
+.footer-glass__newsletter-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.footer-glass__newsletter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-glass__newsletter-input {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1rem;
+  background: var(--bg-input);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+}
+
+.footer-glass__newsletter-input input {
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text-white);
+  font-size: 0.85rem;
+  width: 100%;
+}
+
+.footer-glass__newsletter-btn {
+  padding: 0.6rem 1rem;
+  background: var(--primary-gradient);
+  color: #0A0D14;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.footer-glass__newsletter-btn:hover {
+  box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+/* Payments */
+.footer-glass__payments {
+  margin-top: 1.25rem;
+}
+
+.footer-glass__payments-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.footer-glass__payments-icons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.footer-glass__payment-icon {
+  padding: 0.25rem 0.6rem;
+  background: var(--bg-glass);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-gray);
+}
+
+/* Bottom bar */
+.footer-glass__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+  margin-top: 3rem;
+  border-top: 1px solid var(--bg-glass-border);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.footer-glass__bottom-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-glass__bottom-links a {
+  transition: color 0.2s ease;
+}
+
+.footer-glass__bottom-links a:hover {
+  color: var(--primary-gold);
+}
+
+@media (max-width: 1024px) {
+  .footer-glass__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .footer-glass__col--brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-glass__grid {
+    grid-template-columns: 1fr;
+  }
+  .footer-glass__bottom {
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: center;
+  }
+}

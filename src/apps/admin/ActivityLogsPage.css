@@ -1,0 +1,14 @@
+.al-badge {
+  font-size: 0.7rem; font-weight: 800;
+  padding: 0.2rem 0.6rem; border-radius: 5px; white-space: nowrap;
+  color: var(--text-gray);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  font-family: monospace;
+}
+
+@media (max-width: 768px) {
+  .up-stats { grid-template-columns: repeat(2, 1fr); }
+  .up-heading { flex-direction: column; gap: 0.75rem; }
+  .up-filters { margin-left: 0; }
+}

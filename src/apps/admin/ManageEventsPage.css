@@ -1,0 +1,101 @@
+.mep-shell { display: flex; flex-direction: column; gap: 1.25rem; }
+
+.mep-heading { display: flex; justify-content: space-between; align-items: flex-start; }
+.mep-heading h1 { font-size: 1.4rem; font-weight: 800; color: white; }
+.mep-heading p  { font-size: 0.85rem; color: var(--text-gray); margin-top: 2px; }
+
+.mep-add-btn {
+  display: flex; align-items: center; gap: 0.45rem;
+  padding: 0.6rem 1.1rem;
+  background: var(--primary-orange-gradient);
+  border-radius: 8px;
+  color: white; font-size: 0.82rem; font-weight: 800;
+  box-shadow: 0 4px 16px rgba(255,112,32,0.3);
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+.mep-add-btn:hover { opacity: 0.9; }
+
+.mep-toolbar {
+  display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+}
+
+.mep-search {
+  display: flex; align-items: center; gap: 0.5rem;
+  background: rgba(12,13,18,0.7); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px; padding: 0.45rem 0.9rem; flex: 1; max-width: 340px;
+}
+.mep-search input { flex: 1; background: none; border: none; outline: none; color: white; font-size: 0.82rem; }
+.mep-search input::placeholder { color: var(--text-muted); }
+.mep-search svg { color: var(--text-muted); flex-shrink: 0; }
+
+.mep-filters { display: flex; align-items: center; gap: 0.6rem; margin-left: auto; }
+
+.mep-select {
+  background: rgba(12,13,18,0.7); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px; color: var(--text-gray);
+  font-size: 0.8rem; font-weight: 700; padding: 0.45rem 0.85rem;
+  outline: none; transition: border-color 0.2s;
+}
+.mep-select:hover { border-color: rgba(255,255,255,0.15); }
+
+.mep-filter-btn {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px; color: var(--text-gray); font-size: 0.8rem; font-weight: 700;
+  transition: all 0.2s;
+}
+.mep-filter-btn:hover { border-color: rgba(255,255,255,0.15); color: white; }
+
+/* ── 3-dot menu ── */
+.mep-menu-wrap { position: relative; display: inline-flex; }
+
+.mep-menu-btn {
+  width: 30px; height: 30px; border-radius: 7px;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+  color: var(--text-gray); display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.mep-menu-btn:hover { background: rgba(255,255,255,0.07); color: white; }
+
+.mep-dropdown {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 500;
+  background: #0C0D12;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 0.4rem;
+  min-width: 160px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+}
+.mep-dropdown button {
+  display: flex; align-items: center; gap: 0.6rem;
+  width: 100%; padding: 0.55rem 0.75rem;
+  border-radius: 7px;
+  font-size: 0.82rem; font-weight: 700; color: var(--text-gray);
+  text-align: left; transition: all 0.15s;
+}
+.mep-dropdown button:hover { background: rgba(255,255,255,0.04); color: white; }
+.mep-dd-approve:hover { color: #22C55E !important; }
+.mep-dd-reject:hover  { color: #F87171 !important; }
+.mep-dd-delete        { color: #F87171 !important; }
+.mep-dd-delete:hover  { background: rgba(239,68,68,0.08) !important; }
+.mep-dd-divider { height: 1px; background: rgba(255,255,255,0.05); margin: 0.3rem 0; }
+
+/* ── Pagination ── */
+.mep-pagination {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.mep-count { font-size: 0.78rem; color: var(--text-muted); }
+.mep-pages { display: flex; gap: 0.35rem; align-items: center; }
+.mep-page-btn {
+  width: 30px; height: 30px; border-radius: 7px;
+  font-size: 0.78rem; font-weight: 800; color: var(--text-gray);
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+  transition: all 0.2s;
+}
+.mep-page-btn:hover  { border-color: rgba(255,255,255,0.2); color: white; }
+.mep-page-btn.active { background: rgba(255,112,32,0.12); border-color: rgba(255,112,32,0.3); color: #FF7020; }
+.mep-ellipsis { font-size: 0.78rem; color: var(--text-muted); padding: 0 0.25rem; }

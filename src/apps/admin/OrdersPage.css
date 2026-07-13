@@ -1,0 +1,97 @@
+.op-shell { display: flex; flex-direction: column; gap: 1.25rem; }
+
+.op-heading { display: flex; justify-content: space-between; align-items: flex-start; }
+.op-heading h1 { font-size: 1.4rem; font-weight: 800; color: white; }
+.op-heading p  { font-size: 0.85rem; color: var(--text-gray); margin-top: 2px; }
+
+.op-export-btn {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.55rem 1.1rem;
+  background: rgba(255,112,32,0.08); border: 1px solid rgba(255,112,32,0.25);
+  border-radius: 8px; color: #FF7020; font-size: 0.82rem; font-weight: 700;
+  transition: all 0.2s;
+}
+.op-export-btn:hover { background: rgba(255,112,32,0.15); }
+
+.op-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+}
+.op-stat-card { display: flex; flex-direction: column; gap: 0.4rem; }
+.op-stat-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+.op-stat-label { font-size: 0.72rem; font-weight: 700; color: var(--text-gray); }
+.op-stat-val   { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+
+.op-toolbar { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+
+.op-search {
+  flex: 1; min-width: 220px; max-width: 380px;
+  display: flex; align-items: center; gap: 0.5rem;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px; padding: 0 0.85rem; height: 36px;
+}
+.op-search input { flex: 1; background: none; border: none; outline: none; color: white; font-size: 0.82rem; }
+.op-search input::placeholder { color: var(--text-muted); }
+.op-search svg { color: var(--text-muted); flex-shrink: 0; }
+
+.op-filters { display: flex; align-items: center; gap: 0.5rem; }
+
+.op-select {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px; color: var(--text-gray); font-size: 0.78rem; font-weight: 600;
+  padding: 0.35rem 0.65rem; outline: none; height: 36px;
+}
+
+.op-filter-btn {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0 0.9rem; height: 36px;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 6px; color: var(--text-gray); font-size: 0.78rem; font-weight: 700;
+}
+
+.op-ref { font-family: monospace; font-size: 0.8rem; color: #FF9500; font-weight: 700; }
+
+.op-customer-cell { display: flex; align-items: center; gap: 0.65rem; }
+.op-avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--primary-orange-gradient);
+  color: white; font-weight: 800; font-size: 0.75rem;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+
+.op-payment-badge {
+  font-size: 0.7rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 5px;
+}
+.op-payment-badge.mpesa { color: #22C55E; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); }
+.op-payment-badge.card  { color: #2E5BFF; background: rgba(46,91,255,0.1); border: 1px solid rgba(46,91,255,0.2); }
+
+.op-status-badge { font-size: 0.7rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 5px; white-space: nowrap; }
+
+.op-action-btn {
+  width: 28px; height: 28px; border-radius: 7px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+  color: var(--text-gray); font-size: 1rem; display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.op-action-btn:hover { background: rgba(255,255,255,0.08); color: white; }
+
+.op-pagination {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.85rem 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.op-count { font-size: 0.78rem; color: var(--text-muted); }
+.op-pages { display: flex; gap: 0.35rem; }
+.op-page-btn {
+  width: 30px; height: 30px; border-radius: 6px;
+  font-size: 0.78rem; font-weight: 700; color: var(--text-gray);
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+  transition: all 0.2s;
+}
+.op-page-btn:hover  { background: rgba(255,255,255,0.07); color: white; }
+.op-page-btn.active { background: rgba(255,112,32,0.15); border-color: rgba(255,112,32,0.35); color: #FF7020; }
+
+@media (max-width: 768px) {
+  .op-stats { grid-template-columns: repeat(2, 1fr); }
+  .op-toolbar { flex-direction: column; align-items: stretch; }
+  .op-search { max-width: 100%; }
+}

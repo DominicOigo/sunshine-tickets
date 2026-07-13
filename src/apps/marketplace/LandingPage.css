@@ -1,0 +1,14 @@
+.landing-exact {
+  min-height: 100vh;
+  background: var(--bg-deep);
+}
+
+.main-content {
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding-bottom: 64px;
+  }
+}
